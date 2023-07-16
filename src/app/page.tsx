@@ -6,7 +6,7 @@ export interface ProductsProps {
   id: string
   name: string
   imageUrl: string
-  price: number | null
+  price: string | null
 }
 
 export default async function Home() {
@@ -20,6 +20,8 @@ export default async function Home() {
   )
 }
 
+// Indicated to use GetServerStaticProps 
+
 const getData = async () => {
   const response = await stripe.products.list({
     expand: ['data.default_price']
@@ -27,18 +29,23 @@ const getData = async () => {
 
   const products = response.data.map(product => {
     const price = product.default_price as Stripe.Price
+    const unitAmount = price?.unit_amount ?? 0
 
     return {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
-      price: price.unit_amount && price.unit_amount / 100
+      price: new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      }).format(unitAmount / 100)
     }
   })
 
   return {
     props: {
       products
-    }
+    },
+    revalidate: 60 * 60 * 2, // 2 hours
   }
 }

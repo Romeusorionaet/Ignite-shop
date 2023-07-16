@@ -1,0 +1,15 @@
+@tailwind components;
+
+@layer components{
+    .animation-hover-hidden {
+        @apply 
+        hidden transform translate-y-full transition-all duration-700 ease-in-out
+        
+    }
+
+    .animation-hover-show {
+        @apply
+        translate-y-0 opacity-100 
+        flex justify-between items-center
+    }
+}

@@ -6,21 +6,11 @@
     font-size: 62.5%;
 }
 
+* {
+ @apply box-border m-0 p-0
+}
+
 body {
     @apply 
     bg-gray900 text-white font-bold tracking-wide
-}
-
-@layer components{
-    .animation-hover-hidden {
-        @apply 
-        hidden transform translate-y-full transition-all duration-700 ease-in-out
-        
-    }
-
-    .animation-hover-show {
-        @apply
-        translate-y-0 opacity-100 
-        flex justify-between items-center
-    }
 }

@@ -1,0 +1,16 @@
+@tailwind utilities;
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #027435;
+    border-radius: 60%;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #36dc81;
+  }
+}

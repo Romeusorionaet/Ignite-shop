@@ -38,6 +38,7 @@ export default function ProductDetails({ product }: ProductProps) {
             {product.description}
           </p>
 
+          <button className="bg-red-600">Colocar na sacola</button>
           <ButtonBuyProduct priceId={product.defaultPriceId} />
         </div>
       </div>

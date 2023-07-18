@@ -3,8 +3,7 @@
 @layer components{
     .animation-hover-hidden {
         @apply 
-        hidden transform translate-y-full transition-all duration-700 ease-in-out
-        
+        hidden transform translate-y-full transition-all
     }
 
     .animation-hover-show {

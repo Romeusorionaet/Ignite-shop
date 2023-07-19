@@ -3,20 +3,25 @@
 import axios from 'axios'
 import { useState } from 'react'
 
-interface ButtonBuyProductProps {
-  priceId: string
+interface CartItemsProps {
+  cartItem: {
+    id: string
+    name: string
+    imageUrl: string
+    price: number
+    quantity: number
+  }[]
 }
 
-export default function ButtonBuyProduct({ priceId }: ButtonBuyProductProps) {
+export default function ButtonBuyProduct({ cartItem }: CartItemsProps) {
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] =
     useState(false)
 
   async function handleBuyProduct() {
     setIsCreatingCheckoutSession(true)
-
     try {
       const response = await axios.post('/api/checkout', {
-        priceId,
+        cartItem,
       })
       const { checkoutUrl } = response.data
       window.location.href = checkoutUrl
@@ -31,9 +36,9 @@ export default function ButtonBuyProduct({ priceId }: ButtonBuyProductProps) {
     <button
       disabled={isCreatingCheckoutSession}
       onClick={handleBuyProduct}
-      className="bg-green500 text-xl font-bold w-full p-[2rem] rounded-lg absolute bottom-0 hover:bg-green300 duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
+      className="bg-green500 text-xl font-bold w-[38.4rem] p-[2rem] rounded-lg hover:bg-green300 duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
     >
-      {isCreatingCheckoutSession ? 'Loading...' : 'Comprar agora'}
+      {isCreatingCheckoutSession ? 'Loading...' : 'Finalizar compra'}
     </button>
   )
 }

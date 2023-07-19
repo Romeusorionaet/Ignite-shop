@@ -1,48 +1,63 @@
 import Stripe from 'stripe'
 import Image from 'next/image'
 import { stripe } from '@/lib/stripe'
-import ButtonBuyProduct from '@/pages/components/ButtonBuyProduct'
 import Head from 'next/head'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import toast from 'react-hot-toast'
+import { useContext } from 'react'
+import { CartContext } from '@/contexts/CartProductContext'
 
 interface ProductProps {
   product: {
     id: string
     name: string
     imageUrl: string
-    price: string
+    price: number
     description: string
     defaultPriceId: string
   }
 }
 
 export default function ProductDetails({ product }: ProductProps) {
+  const { addProductInCart } = useContext(CartContext)
+
+  function handleAddProductInCart(productId: string) {
+    addProductInCart({ productId, {parei aq} })
+    toast('added to cart')
+  }
+
   return (
-    <>
-      <Head>
-        <title>{`${product.name} | Ignite Shop`}</title>
-      </Head>
+    <div className="grid grid-cols-2 gap-[7.2rem] mr-[18rem] content-center max-w-[1440px]">
+      {product && (
+        <>
+          <Head>
+            <title>{`${product.name} | Ignite Shop`}</title>
+          </Head>
 
-      <div className="grid grid-cols-2 gap-[7.2rem] mr-[18rem] content-center max-w-[1440px]">
-        <div className="flex items-center justify-center bg-gradient-to-b from-[#1ea483] to-[#7456d4] rounded-lg max-w-[58rem] h-[66rem]">
-          <Image src={product.imageUrl} width={520} height={480} alt="" />
-        </div>
+          <div className="flex items-center justify-center bg-gradient-to-b from-[#1ea483] to-[#7456d4] rounded-lg max-w-[58rem] h-[66rem]">
+            <Image src={product.imageUrl} width={520} height={480} alt="" />
+          </div>
 
-        <div className="h-[66rem] space-y-[6rem] py-10 relative">
-          <h1 className="text-2xl font-bold pb-4">{product.name}</h1>
-          <span className="text-green300 text-2xl font-normal">
-            {product.price}
-          </span>
+          <div className="h-[66rem] space-y-[6rem] py-10 relative">
+            <h1 className="text-2xl font-bold pb-4">{product.name}</h1>
+            <span className="text-green300 text-2xl font-normal">
+              {product.price}
+            </span>
 
-          <p className="text-lg font-normal leading-relaxed text-gray700">
-            {product.description}
-          </p>
+            <p className="text-lg font-normal leading-relaxed text-gray700">
+              {product.description}
+            </p>
 
-          <button className="bg-red-600">Colocar na sacola</button>
-          <ButtonBuyProduct priceId={product.defaultPriceId} />
-        </div>
-      </div>
-    </>
+            <button
+              onClick={() => handleAddProductInCart(product.id)}
+              className="bg-red-600"
+            >
+              Colocar na sacola
+            </button>
+          </div>
+        </>
+      )}
+    </div>
   )
 }
 
@@ -61,7 +76,7 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
   const product = await stripe.products.retrieve(productId, {
     expand: ['default_price'],
   })
-  const price = product.default_price! as Stripe.Price
+  const price = product.default_price as Stripe.Price
 
   return {
     props: {

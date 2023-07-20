@@ -14,6 +14,7 @@ interface ProductProps {
     imageUrl: string
     price: number
     description: string
+    quantity: number
     defaultPriceId: string
   }
 }
@@ -22,7 +23,7 @@ export default function ProductDetails({ product }: ProductProps) {
   const { addProductInCart } = useContext(CartContext)
 
   function handleAddProductInCart(productId: string) {
-    addProductInCart({ productId, {parei aq} })
+    addProductInCart({ productId, product })
     toast('added to cart')
   }
 
@@ -38,19 +39,24 @@ export default function ProductDetails({ product }: ProductProps) {
             <Image src={product.imageUrl} width={520} height={480} alt="" />
           </div>
 
-          <div className="h-[66rem] space-y-[6rem] py-10 relative">
-            <h1 className="text-2xl font-bold pb-4">{product.name}</h1>
-            <span className="text-green300 text-2xl font-normal">
-              {product.price}
-            </span>
+          <div className="h-[66rem] py-10 flex justify-between flex-col relative">
+            <div className="space-y-[6rem] w-[40rem]">
+              <h1 className="text-2xl font-bold pb-4">{product.name}</h1>
+              <span className="text-green300 text-2xl font-normal">
+                {product.price.toLocaleString('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                })}
+              </span>
 
-            <p className="text-lg font-normal leading-relaxed text-gray700">
-              {product.description}
-            </p>
+              <p className="text-lg font-normal leading-relaxed text-gray700">
+                {product.description}
+              </p>
+            </div>
 
             <button
               onClick={() => handleAddProductInCart(product.id)}
-              className="bg-red-600"
+              className="bg-green500 text-xl font-bold w-[38.4rem] p-[2rem] rounded-lg hover:bg-green300 duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               Colocar na sacola
             </button>
@@ -84,10 +90,8 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
         id: product.id,
         name: product.name,
         imageUrl: product.images[0],
-        price: new Intl.NumberFormat('pt-BR', {
-          style: 'currency',
-          currency: 'BRL',
-        }).format(price.unit_amount! / 100),
+        price: price.unit_amount! / 100,
+        quantity: 1,
         description: product.description,
         defaultPriceId: price.id,
       },

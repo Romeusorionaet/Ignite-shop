@@ -2,6 +2,8 @@ import Image from 'next/image'
 import ButtonBuyProduct from './ButtonBuyProduct'
 import { useContext, useEffect, useState } from 'react'
 import { CartContext } from '@/contexts/CartProductContext'
+import { ButtonCartSideContext } from '@/contexts/ButtonCartSideContext'
+import { Minus, Plus, X } from 'phosphor-react'
 
 export default function Cart() {
   const {
@@ -11,30 +13,51 @@ export default function Cart() {
     handleRemoveProductInCart,
   } = useContext(CartContext)
   const [totalValue, setTotalValue] = useState<number>(0)
-
-  const calculateTotalValue = () => {
-    let total = 0
-
-    cartItem.forEach((item) => {
-      const itemTotal = item.price * item.quantity
-      total += itemTotal
-    })
-
-    return total
-  }
+  const { buttonValueCartSide, getButtonValue } = useContext(
+    ButtonCartSideContext,
+  )
 
   useEffect(() => {
-    const updatedTotalValue = calculateTotalValue()
-    setTotalValue(updatedTotalValue)
+    function calculateTotalValue() {
+      let total = 0
+
+      cartItem.forEach((item) => {
+        const itemTotal = item.price * item.quantity
+        total += itemTotal
+      })
+
+      setTotalValue(total)
+    }
+    calculateTotalValue()
   }, [cartItem])
 
+  function handleButtonValueCartSide() {
+    if (buttonValueCartSide === false) {
+      getButtonValue(true)
+    } else {
+      getButtonValue(false)
+    }
+  }
+
   return (
-    <div className="h-full absolute z-10 top-0 right-0 px-[4.8rem] w-[48rem] bg-gray800">
+    <div
+      className={`${
+        buttonValueCartSide === false
+          ? 'hidden'
+          : 'h-full absolute z-10 top-0 right-0 px-[4.8rem] w-[48rem] bg-gray800'
+      }`}
+    >
+      <button
+        onClick={handleButtonValueCartSide}
+        className="absolute top-8 right-16"
+      >
+        <X size={32} color="#fcfefb" weight="light" />
+      </button>
       <h1 className="mt-[7.2rem] mb-[4rem] text-gra600 text-2xl font-bold">
         Sacola de compras
       </h1>
 
-      <div className="h-[50rem] flex flex-col gap-6 overflow-y-auto scrollbar">
+      <div className="h-[50rem] flex flex-col gap-6 overflow-x-auto scrollbar">
         {cartItem &&
           cartItem.map((item) => {
             return (
@@ -69,12 +92,12 @@ export default function Cart() {
                       <button
                         onClick={() => handleIncreaseQuantityOfProduct(item.id)}
                       >
-                        MORE
+                        <Plus size={28} color="#fcfefb" weight="light" />
                       </button>
                       <button
                         onClick={() => handleDecreaseQuantityOfProduct(item.id)}
                       >
-                        LESS
+                        <Minus size={28} color="#fcfefb" weight="light" />
                       </button>
                     </div>
                   </div>
@@ -84,8 +107,8 @@ export default function Cart() {
           })}
       </div>
 
-      <div className=" h-[20rem] flex flex-col justify-between">
-        <div>
+      <div className="h-[20rem] flex-col">
+        <div className=" flex flex-col gap-7 ">
           <div className="flex justify-between">
             <p className="text-gray600 text-xl">quantidade</p>
             <span className="text-gray700 text-xl">
@@ -104,8 +127,9 @@ export default function Cart() {
             </span>
           </div>
         </div>
-
-        <ButtonBuyProduct cartItem={cartItem} />
+        <div className="mt-[8rem]">
+          <ButtonBuyProduct cartItem={cartItem} />
+        </div>
       </div>
     </div>
   )

@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useEffect, useState } from 'react'
+import { ReactNode, createContext, useState } from 'react'
 
 export interface ProductProps {
   id: string
@@ -10,11 +10,11 @@ export interface ProductProps {
 
 interface AddProductInCartProps {
   productId: string
-  productToAdd: ProductProps
+  product: ProductProps
 }
 
 interface CartContextType {
-  addProductInCart: ({ productId, productToAdd }: AddProductInCartProps) => void
+  addProductInCart: ({ productId, product }: AddProductInCartProps) => void
   cartItem: ProductProps[]
   handleDecreaseQuantityOfProduct: (productId: string) => void
   handleIncreaseQuantityOfProduct: (productId: string) => void
@@ -30,16 +30,10 @@ interface CartContextProviderProps {
 export function CartContextProvider({ children }: CartContextProviderProps) {
   const [cartItem, setCartItem] = useState<ProductProps[]>([])
 
-  function addProductInCart({
-    productId,
-    productToAdd,
-  }: AddProductInCartProps) {
-    console.log('oi')
-
+  function addProductInCart({ productId, product }: AddProductInCartProps) {
     const existingProduct = cartItem.find((item) => item.id === productId)
-
     if (!existingProduct) {
-      return setCartItem((state) => [...state, productToAdd])
+      return setCartItem((state) => [...state, product])
     }
   }
 

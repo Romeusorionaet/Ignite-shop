@@ -7,13 +7,18 @@ import Head from 'next/head'
 
 interface SuccessProps {
   customerName: string
-  product: {
+  products: {
+    id: string
     name: string
     imageUrl: string
-  }
+  }[]
 }
 
-export default function Success({ customerName, product }: SuccessProps) {
+export default function Success({ customerName, products }: SuccessProps) {
+  const possessivePronouns = products.length > 1 ? `${'seus '}` : `${'sua '}`
+  const product =
+    products.length > 1 ? `${'produtos '}` : products.map((item) => item.name)
+
   return (
     <>
       <Head>
@@ -22,22 +27,32 @@ export default function Success({ customerName, product }: SuccessProps) {
       </Head>
 
       <div className="flex flex-col items-center justify-center my-8 max-h-[65.6]">
-        <h1 className="text-2xl text-gray600">Compra Efetuada!</h1>
-
-        <div className="w-full max-w-[13rem] h-[14.5rem] bg-gradient-to-b from-[#1ea483] to-[#7456d4] rounded-lg p[0.25rem] mt-[6rem] mb-[4rem] flex item-center justify-center">
-          <Image
-            width={120}
-            height={110}
-            className="object-cover"
-            src={product.imageUrl}
-            alt=""
-          />
+        <div className="flex w-[60rem] justify-center overflow-x-auto flex-nowrap scrollbar">
+          {products.map((item, index) => {
+            return (
+              <div
+                key={item.id}
+                className={`min-w-[12rem] ${
+                  index === 0 ? '' : '-ml-[4rem]'
+                } shadow-lg shadow-black p-6 max-w-[13rem] h-[14.5rem] bg-gradient-to-b from-[#1ea483] to-[#7456d4] rounded-full p[0.25rem] flex item-center justify-center`}
+              >
+                <Image
+                  width={120}
+                  height={110}
+                  className="object-cover"
+                  src={item.imageUrl}
+                  alt={item.name}
+                />
+              </div>
+            )
+          })}
         </div>
 
+        <h1 className="text-2xl text-gray600 my-[6rem]">Compra Efetuada!</h1>
+
         <p className="text-xl text-gray700 max-w-[56rem] align-center">
-          Uhuul <strong>{customerName}</strong>, sua
-          <strong>{product.name}</strong>
-          já está a caminho da sua casa.
+          Uhuul <strong>{customerName}</strong> {possessivePronouns}
+          <strong>{product}</strong> já está a caminho da sua casa.
         </p>
 
         <Link className="block mt-[8rem] text-lg text-green500" href="/">
@@ -65,15 +80,19 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
   })
 
   const customerName = session.customer_details!.name
-  const product = session.line_items!.data[0].price!.product as Stripe.Product
+  const products = session.line_items!.data.map((item: Stripe.LineItem) => {
+    const product = item.price!.product as Stripe.Product
+    return {
+      id: product.id,
+      name: product.name,
+      imageUrl: product.images[0],
+    }
+  })
 
   return {
     props: {
       customerName,
-      product: {
-        name: product.name,
-        imageUrl: product.images[0],
-      },
+      products,
     },
   }
 }

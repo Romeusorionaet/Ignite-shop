@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { stripe } from '../lib/stripe'
 import Stripe from 'stripe'
-import { Product } from './components/product'
+import Product from './components/product'
 import { GetStaticProps } from 'next'
 
 interface HomeProps {
@@ -43,12 +43,14 @@ export const getStaticProps: GetStaticProps = async () => {
   const products = response.data.map((product) => {
     const price = product.default_price as Stripe.Price
 
+    const unitAmount = price.unit_amount !== null ? price.unit_amount / 100 : 0
+
     return {
       id: product.id,
       name: product.name,
       imageUrl: product.images[0],
       quantity: 1,
-      price: price.unit_amount! / 100,
+      price: unitAmount,
       defaultPriceId: price.id,
     }
   })

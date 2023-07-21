@@ -6,7 +6,7 @@ import { CartContext } from '@/contexts/CartProductContext'
 import { ShoppingBagOpen } from 'phosphor-react'
 import { ButtonCartSideContext } from '@/contexts/ButtonCartSideContext'
 
-export function Header() {
+export default function Header() {
   const { cartItem } = useContext(CartContext)
   const { buttonValueCartSide, getButtonValue } = useContext(
     ButtonCartSideContext,

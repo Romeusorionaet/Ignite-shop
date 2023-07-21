@@ -80,7 +80,7 @@ export default function Cart() {
                     })}
                   </strong>
 
-                  <div className="flex gap-6 justify-between">
+                  <div className="flex gap-6 justify-between w-[16rem]">
                     <button
                       onClick={() => handleRemoveProductInCart(item.id)}
                       className="text-gray500 font-bold text-lg text-green300"

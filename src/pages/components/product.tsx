@@ -39,7 +39,7 @@ export default function Product({ products }: ProductsProps) {
         products.map((product) => {
           return (
             <div className="group keen-slider__slide" key={product.id}>
-              <Link href={`/product/${product.id}`}>
+              <Link href={`/product/${product.id}`} prefetch={false}>
                 <div className="flex h-[48rem] justify-center  bg-gradient-to-b from-[#1ea483] to-[#7456d4] rounded-lg cursor-pointer relative">
                   <Image
                     priority

@@ -26,7 +26,7 @@ export default function Success({ customerName, products }: SuccessProps) {
         <meta name="robots" content="noindex" />
       </Head>
 
-      <div className="flex flex-col items-center justify-center my-8 max-h-[65.6]">
+      <div className="flex flex-col items-center justify-center mt-[4rem] pr-[10rem] max-h-[65.6] max-mobile:mt-[8rem]">
         <div className="flex w-[60rem] justify-center overflow-x-auto flex-nowrap scrollbar">
           {products.map((item, index) => {
             return (

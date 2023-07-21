@@ -25,13 +25,13 @@ export default function Header() {
   }
 
   return (
-    <header className="h-[12.4rem] flex mt-40 justify-between items-center">
+    <header className="h-[12.4rem] flex mt-40 justify-between items-center max-mobile:mt-20">
       <Link href="/">
         <Image className="my-auto" src={igniteLogo} alt="" />
       </Link>
       <button
         onClick={handleButtonValueCartSide}
-        className="border-none bg-none mr-[36rem]"
+        className="border-none bg-none mr-[18rem]"
       >
         <div className="relative bg-gray-700 p-4 rounded-lg">
           <ShoppingBagOpen size={32} color="#fcfefb" weight="light" />

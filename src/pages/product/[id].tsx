@@ -2,7 +2,7 @@ import Stripe from 'stripe'
 import Image from 'next/image'
 import { stripe } from '@/lib/stripe'
 import Head from 'next/head'
-import { GetStaticPaths, GetStaticProps } from 'next'
+import { GetServerSideProps } from 'next'
 import toast from 'react-hot-toast'
 import { useContext } from 'react'
 import { CartContext } from '@/contexts/CartProductContext'
@@ -25,6 +25,10 @@ export default function ProductDetails({ product }: ProductProps) {
   function handleAddProductInCart(productId: string) {
     addProductInCart({ productId, product })
     toast('added to cart')
+  }
+
+  if (!product) {
+    alert('erro ao acarregar porduto')
   }
 
   return (
@@ -67,16 +71,10 @@ export default function ProductDetails({ product }: ProductProps) {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  return {
-    paths: [{ params: { id: 'prod_OG0VyBWXR6d3G3' } }],
-    fallback: true,
-  }
-}
-
-export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
-  params,
-}) => {
+export const getServerSideProps: GetServerSideProps<
+  any,
+  { id: string }
+> = async ({ params }) => {
   const productId = params?.id
 
   if (!productId) {
@@ -105,6 +103,5 @@ export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
         defaultPriceId: price.id,
       },
     },
-    revalidate: 60 * 60 * 1, // 1 hour
   }
 }

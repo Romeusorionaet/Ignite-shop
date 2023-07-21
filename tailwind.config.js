@@ -31,6 +31,11 @@ module.exports = {
         xl: '1.5rem',
         '2xl': '2rem',
       },
+
+      screens: {
+        mobile: '800px',
+        mineMobile: '300px',
+      },
     },
   },
   plugins: [],

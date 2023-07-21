@@ -6,8 +6,9 @@ import 'keen-slider/keen-slider.min.css'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 import { useContext } from 'react'
-import { CartContext, ProductProps } from '@/contexts/CartProductContext'
+import { CartContext } from '@/contexts/CartProductContext'
 import { Tote } from 'phosphor-react'
+import { ProductProps } from '@/reducers/cartiItem/reducer'
 
 interface ProductsProps {
   products: ProductProps[]
@@ -40,6 +41,7 @@ export function Product({ products }: ProductsProps) {
             <Link href={`/product/${product.id}`}>
               <div className="flex h-[48rem] justify-center  bg-gradient-to-b from-[#1ea483] to-[#7456d4] rounded-lg cursor-pointer relative">
                 <Image
+                  priority
                   className="object-contain"
                   width={325}
                   height={300}

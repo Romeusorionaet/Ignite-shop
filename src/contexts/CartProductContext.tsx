@@ -1,14 +1,13 @@
-import { ReactNode, createContext, useState } from 'react'
+import {
+  addNewProductAction,
+  decreaseQuantityOfProductAction,
+  increaseQuantityOfProductAction,
+  removeProductAction,
+} from '@/reducers/cartiItem/actions'
+import { ProductProps, cartItemReducer } from '@/reducers/cartiItem/reducer'
+import { ReactNode, createContext, useReducer } from 'react'
 
-export interface ProductProps {
-  id: string
-  name: string
-  imageUrl: string
-  price: number
-  quantity: number
-}
-
-interface AddProductInCartProps {
+export interface AddProductInCartProps {
   productId: string
   product: ProductProps
 }
@@ -28,41 +27,26 @@ interface CartContextProviderProps {
 }
 
 export function CartContextProvider({ children }: CartContextProviderProps) {
-  const [cartItem, setCartItem] = useState<ProductProps[]>([])
+  const [cartItemState, dispatch] = useReducer(cartItemReducer, {
+    cartItem: [],
+  })
+
+  const { cartItem } = cartItemState
 
   function addProductInCart({ productId, product }: AddProductInCartProps) {
-    const existingProduct = cartItem.find((item) => item.id === productId)
-    if (!existingProduct) {
-      return setCartItem((state) => [...state, product])
-    }
+    return dispatch(addNewProductAction({ product, productId }))
   }
 
   function handleDecreaseQuantityOfProduct(productId: string) {
-    const updatedCartItem = cartItem.map((item) => {
-      if (item.id === productId && item.quantity > 1) {
-        return { ...item, quantity: item.quantity - 1 }
-      }
-      return item
-    })
-
-    return setCartItem(updatedCartItem)
+    return dispatch(decreaseQuantityOfProductAction(productId))
   }
 
   function handleIncreaseQuantityOfProduct(productId: string) {
-    const updatedCartItem = cartItem.map((item) => {
-      if (item.id === productId) {
-        return { ...item, quantity: item.quantity + 1 }
-      }
-      return item
-    })
-
-    return setCartItem(updatedCartItem)
+    return dispatch(increaseQuantityOfProductAction(productId))
   }
 
   function handleRemoveProductInCart(productId: string) {
-    const updatedCartItem = cartItem.filter((item) => item.id !== productId)
-
-    return setCartItem(updatedCartItem)
+    return dispatch(removeProductAction(productId))
   }
 
   return (

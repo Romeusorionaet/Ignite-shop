@@ -74,7 +74,7 @@ export default function Cart() {
                     {item.name}
                   </h3>
                   <strong className="text-gray600 text-xl font-bold">
-                    {item.price.toLocaleString('pt-BR', {
+                    {(item.quantity * item.price).toLocaleString('pt-BR', {
                       style: 'currency',
                       currency: 'BRL',
                     })}

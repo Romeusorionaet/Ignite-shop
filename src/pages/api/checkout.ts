@@ -20,7 +20,7 @@ export default async function handler(
     return response.status(405).json({ error: 'Method not allowed' })
   }
 
-  const successUrl = `${process.env.NEXT_URL}/success`
+  const successUrl = `${process.env.NEXT_URL}/success?session_id={CHECKOUT_SESSION_ID}`
   const cancelUrl = `${process.env.NEXT_URL}/`
 
   const transformItems = cartItem.map((item: ProductsProps) => ({
@@ -35,7 +35,13 @@ export default async function handler(
     cancel_url: cancelUrl,
   })
 
+  const successUrlWithSessionId = successUrl.replace(
+    '{CHECKOUT_SESSION_ID}',
+    checkoutSession.id,
+  )
+
   return response.status(201).json({
     checkoutUrl: checkoutSession.url,
+    successUrlWithSessionId,
   })
 }

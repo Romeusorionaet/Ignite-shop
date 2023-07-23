@@ -44,7 +44,7 @@ export default function Cart() {
       className={`${
         buttonValueCartSide === false
           ? 'hidden'
-          : 'h-full absolute z-10 top-0 right-0 px-[4.8rem] w-[48rem] bg-gray800'
+          : 'h-screen max-mobile:w-screen absolute z-10 top-0 right-0 px-[4.8rem] max-mobile:px-[2rem] max-w-[48rem] bg-gray800 border-b-2 border-b-green-500 max-mobile:flex flex-col items-center'
       }`}
     >
       <button
@@ -57,11 +57,14 @@ export default function Cart() {
         Sacola de compras
       </h1>
 
-      <div className="h-[50rem] flex flex-col gap-6 overflow-x-auto scrollbar">
+      <div className="h-[50rem] flex flex-col gap-6 overflow-x-auto scrollbar max-mobile:items-center">
         {cartItem &&
           cartItem.map((item) => {
             return (
-              <div className="flex gap-4 items-center" key={item.id}>
+              <div
+                className="flex gap-4 items-center w-[32.5rem]"
+                key={item.id}
+              >
                 <div className="relative flex justify-center p-2 bg-gradient-to-b from-[#1ea483] to-[#7456d4] rounded-lg p[0.25rem] h-[10rem]">
                   <Image width={100} height={100} src={item.imageUrl} alt="" />
                   <span className="absolute right-2 top-2 text-lg">
@@ -107,7 +110,7 @@ export default function Cart() {
           })}
       </div>
 
-      <div className="h-[20rem] flex-col">
+      <div className="h-[20rem] max-mobile:max-w-[30rem] flex-col">
         <div className=" flex flex-col gap-7 ">
           <div className="flex justify-between">
             <p className="text-gray600 text-xl">quantidade</p>
@@ -127,7 +130,8 @@ export default function Cart() {
             </span>
           </div>
         </div>
-        <div className="mt-[8rem]">
+
+        <div className="mt-[8rem] max-mobile:mt-[2rem]">
           <ButtonBuyProduct cartItem={cartItem} />
         </div>
       </div>

@@ -2,12 +2,12 @@
 
 @layer utilities {
   .scrollbar::-webkit-scrollbar {
-    width: 6px;
+    width: 4px;
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
     background: #027435;
-    border-radius: 60%;
+    border-radius: 50%;
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {

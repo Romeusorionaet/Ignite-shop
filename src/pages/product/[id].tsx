@@ -6,6 +6,7 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import toast from 'react-hot-toast'
 import { useContext } from 'react'
 import { CartContext } from '@/contexts/CartProductContext'
+import { ButtonCartSideContext } from '@/contexts/ButtonCartSideContext'
 
 interface ProductProps {
   product: {
@@ -21,6 +22,7 @@ interface ProductProps {
 
 export default function ProductDetails({ product }: ProductProps) {
   const { addProductInCart } = useContext(CartContext)
+  const { buttonValueCartSide } = useContext(ButtonCartSideContext)
 
   function handleAddProductInCart(productId: string) {
     addProductInCart({ productId, product })
@@ -28,7 +30,7 @@ export default function ProductDetails({ product }: ProductProps) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-[7.2rem] mr-[18rem] content-center max-w-[1440px]">
+    <div className="grid grid-cols-2 max-mobile:grid-cols-1 max-mobile:mx-auto max-mobile:mr-[2rem] gap-[7.2rem] max-mobile:gap-[2rem] mr-[18rem] content-center max-w-[1440px] overflow-hidden">
       {product && (
         <>
           <Head>
@@ -39,7 +41,7 @@ export default function ProductDetails({ product }: ProductProps) {
             <Image src={product.imageUrl} width={520} height={480} alt="" />
           </div>
 
-          <div className="h-[66rem] py-10 flex justify-between flex-col relative">
+          <div className="h-[66rem] py-10 relative">
             <div className="space-y-[6rem] w-[40rem]">
               <h1 className="text-2xl font-bold pb-4">{product.name}</h1>
               <span className="text-green300 text-2xl font-normal">
@@ -49,14 +51,14 @@ export default function ProductDetails({ product }: ProductProps) {
                 })}
               </span>
 
-              <p className="text-lg font-normal leading-relaxed text-gray700">
+              <p className="text-lg font-normal leading-relaxed text-gray700 max-mobile:w-[26rem]">
                 {product.description}
               </p>
             </div>
 
             <button
               onClick={() => handleAddProductInCart(product.id)}
-              className="bg-green500 text-xl font-bold w-[38.4rem] p-[2rem] rounded-lg hover:bg-green300 duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
+              className="bg-green500 mt-[33rem] max-mobile:mt-[10rem] text-xl font-bold w-[38.4rem] max-mobile:w-[18rem] p-[2rem] rounded-lg hover:bg-green300 duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
             >
               Colocar na sacola
             </button>

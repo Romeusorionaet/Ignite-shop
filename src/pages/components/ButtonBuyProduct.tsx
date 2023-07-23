@@ -36,7 +36,7 @@ export default function ButtonBuyProduct({ cartItem }: CartItemsProps) {
     <button
       disabled={isCreatingCheckoutSession}
       onClick={handleBuyProduct}
-      className="bg-green500 text-xl font-bold w-[38.4rem] p-[2rem] rounded-lg hover:bg-green300 duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
+      className="bg-green500 text-xl font-bold w-[38.4rem] max-mobile:w-[28rem] p-[2rem] rounded-lg hover:bg-green300 duration-500 disabled:opacity-60 disabled:cursor-not-allowed"
     >
       {isCreatingCheckoutSession ? 'Loading...' : 'Finalizar compra'}
     </button>

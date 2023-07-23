@@ -14,7 +14,7 @@ export default function MyApp({ Component, pageProps }: MyAppProps) {
   return (
     <CartContextProvider>
       <ButtonCartSideProvider>
-        <div className="pl-[18rem] max-mobile:pl-[10rem]">
+        <div className="pl-[18rem] max-mobile:pl-[2rem]">
           <Toaster position="bottom-center" />
           <Header />
           <Cart />

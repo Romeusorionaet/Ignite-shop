@@ -25,16 +25,20 @@ export default function Header() {
   }
 
   return (
-    <header className="h-[12.4rem] flex mt-40 justify-between items-center max-mobile:mt-20">
+    <header className="h-[12.4rem] flex mt-40 justify-between items-center max-mobile:my-[6rem]">
       <Link href="/">
-        <Image className="my-auto" src={igniteLogo} alt="" />
+        <Image
+          className="my-auto max-mobile:w-[10rem]"
+          src={igniteLogo}
+          alt=""
+        />
       </Link>
       <button
         onClick={handleButtonValueCartSide}
-        className="border-none bg-none mr-[18rem]"
+        className="border-none bg-none mr-[18rem] max-mobile:mr-[4rem]"
       >
         <div className="relative bg-gray-700 p-4 rounded-lg">
-          <ShoppingBagOpen size={32} color="#fcfefb" weight="light" />
+          <ShoppingBagOpen size={28} color="#fcfefb" weight="light" />
           <div className="text-3xl h-12 w-12 flex items-center justify-center absolute bg-green500 p-2 rounded-full -top-8 -right-4">
             <span>{cartItem.length}</span>
           </div>

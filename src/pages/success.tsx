@@ -26,14 +26,14 @@ export default function Success({ customerName, products }: SuccessProps) {
         <meta name="robots" content="noindex" />
       </Head>
 
-      <div className="flex flex-col items-center justify-center mt-[4rem] pr-[10rem] max-h-[65.6] max-mobile:mt-[8rem]">
-        <div className="flex w-[60rem] justify-center overflow-x-auto flex-nowrap scrollbar">
+      <div className="pb-[2rem] flex flex-col items-center justify-center mt-[4rem] pr-[10rem] max-mobile:pr-0 max-h-[65.6] overflow-hidden">
+        <div className="flex justify-center flex-wrap items-center h-[20rem] overflow-auto scrollbar">
           {products.map((item, index) => {
             return (
               <div
                 key={item.id}
                 className={`min-w-[12rem] ${
-                  index === 0 ? '' : '-ml-[4rem]'
+                  index === 0 ? '' : ''
                 } shadow-lg shadow-black p-6 max-w-[13rem] h-[14.5rem] bg-gradient-to-b from-[#1ea483] to-[#7456d4] rounded-full p[0.25rem] flex item-center justify-center`}
               >
                 <Image
@@ -48,16 +48,18 @@ export default function Success({ customerName, products }: SuccessProps) {
           })}
         </div>
 
-        <h1 className="text-2xl text-gray600 my-[6rem]">Compra Efetuada!</h1>
+        <div className="max-mobile:flex flex-col items-center">
+          <h1 className="text-2xl text-gray600 my-[6rem]">Compra Efetuada!</h1>
 
-        <p className="text-xl text-gray700 max-w-[56rem] align-center">
-          Uhuul <strong>{customerName}</strong> {possessivePronouns}
-          <strong>{product}</strong> já está a caminho da sua casa.
-        </p>
+          <p className="text-xl text-gray700 max-w-[56rem] align-center">
+            Uhuul <strong>{customerName}</strong> {possessivePronouns}
+            <strong>{product}</strong> já está a caminho da sua casa.
+          </p>
 
-        <Link className="block mt-[8rem] text-lg text-green500" href="/">
-          Voltar ao catálogo
-        </Link>
+          <Link className="block mt-[8rem] text-lg text-green500" href="/">
+            Voltar ao catálogo
+          </Link>
+        </div>
       </div>
     </>
   )

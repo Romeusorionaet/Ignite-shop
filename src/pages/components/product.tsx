@@ -9,6 +9,7 @@ import { useContext } from 'react'
 import { CartContext } from '@/contexts/CartProductContext'
 import { Tote } from 'phosphor-react'
 import { ProductProps } from '@/reducers/cartiItem/reducer'
+import { useWidthScreen } from '@/hooks/useWidthScreen'
 
 interface ProductsProps {
   products: ProductProps[]
@@ -16,13 +17,24 @@ interface ProductsProps {
 
 export default function Product({ products }: ProductsProps) {
   const { addProductInCart } = useContext(CartContext)
+  const widthScreen = useWidthScreen()
 
-  const [sliderRef] = useKeenSlider({
+  const [sliderRefDesktop] = useKeenSlider({
     slides: {
       perView: 2.5,
       spacing: 48,
     },
   })
+
+  const [sliderRefMobile] = useKeenSlider({
+    slides: {
+      perView: 1.5,
+      spacing: 20,
+    },
+  })
+
+  const sideRef =
+    widthScreen && widthScreen <= 800 ? sliderRefMobile : sliderRefDesktop
 
   function handleAddProductInCart(productId: string) {
     const product = products.find((product) => product.id === productId)
@@ -34,13 +46,13 @@ export default function Product({ products }: ProductsProps) {
   }
 
   return (
-    <div ref={sliderRef} className="keen-slider flex">
+    <div ref={sideRef} className="keen-slider flex">
       {products &&
         products.map((product) => {
           return (
             <div className="group keen-slider__slide" key={product.id}>
               <Link href={`/product/${product.id}`} prefetch={false}>
-                <div className="flex h-[48rem] justify-center  bg-gradient-to-b from-[#1ea483] to-[#7456d4] rounded-lg cursor-pointer relative">
+                <div className="flex h-[48rem] max-mobile:h-[38rem] justify-center bg-gradient-to-b from-[#1ea483] to-[#7456d4] rounded-lg cursor-pointer relative">
                   <Image
                     priority
                     className="object-contain"
@@ -51,7 +63,7 @@ export default function Product({ products }: ProductsProps) {
                   />
                 </div>
               </Link>
-              <div className="text-lg font-bold absolute bottom-[0.25rem] left-[0.25rem] right-[0.40rem] p-[3.2rem] rounded-md bg-black/60 h-[6rem] animation-hover-hidden group-hover:animation-hover-show ">
+              <div className="text-lg font-bold absolute bottom-[0.25rem] left-[0.25rem] right-[0.40rem] p-[3.2rem] max-mobile:p-[1rem] rounded-md bg-black/60 h-[6rem] animation-hover-hidden group-hover:animation-hover-show ">
                 <div className="flex flex-col gap-2">
                   <span>{product.name}</span>{' '}
                   <strong className="text-xl text-green300">
@@ -66,7 +78,7 @@ export default function Product({ products }: ProductsProps) {
                   onClick={() => handleAddProductInCart(product.id)}
                   className="bg-green500 p-2 rounded-xl"
                 >
-                  <Tote size={32} color="#fcfefb" weight="light" />
+                  <Tote size={28} color="#fcfefb" weight="light" />
                 </button>
               </div>
             </div>

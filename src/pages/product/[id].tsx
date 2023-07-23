@@ -6,7 +6,6 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 import toast from 'react-hot-toast'
 import { useContext } from 'react'
 import { CartContext } from '@/contexts/CartProductContext'
-import { useRouter } from 'next/router'
 
 interface ProductProps {
   product: {
@@ -22,19 +21,10 @@ interface ProductProps {
 
 export default function ProductDetails({ product }: ProductProps) {
   const { addProductInCart } = useContext(CartContext)
-  const { isFallback } = useRouter()
 
   function handleAddProductInCart(productId: string) {
     addProductInCart({ productId, product })
     toast('added to cart')
-  }
-
-  if (isFallback) {
-    return (
-      <div className="w-full flex items-center justify-center">
-        <h1 className="text-2xl">...Loading</h1>
-      </div>
-    )
   }
 
   return (
@@ -78,9 +68,19 @@ export default function ProductDetails({ product }: ProductProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const products = await stripe.products.list()
+
+  const paths = products.data.map((product) => {
+    return {
+      params: {
+        id: product.id,
+      },
+    }
+  })
+
   return {
-    paths: [{ params: { id: 'prod_OG0VyBWXR6d3G3' } }],
-    fallback: true,
+    paths,
+    fallback: 'blocking',
   }
 }
 

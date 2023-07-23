@@ -2,10 +2,11 @@ import Stripe from 'stripe'
 import Image from 'next/image'
 import { stripe } from '@/lib/stripe'
 import Head from 'next/head'
-import { GetServerSideProps } from 'next'
+import { GetServerSideProps, GetStaticPaths } from 'next'
 import toast from 'react-hot-toast'
 import { useContext } from 'react'
 import { CartContext } from '@/contexts/CartProductContext'
+import { useRouter } from 'next/router'
 
 interface ProductProps {
   product: {
@@ -21,14 +22,16 @@ interface ProductProps {
 
 export default function ProductDetails({ product }: ProductProps) {
   const { addProductInCart } = useContext(CartContext)
+  const { isFallback } = useRouter()
 
   function handleAddProductInCart(productId: string) {
     addProductInCart({ productId, product })
     toast('added to cart')
   }
 
-  if (!product) {
-    alert('erro ao acarregar porduto')
+  if (isFallback) {
+    console.log('IsFALLBAK')
+    return <h1>...Loading</h1>
   }
 
   return (
@@ -71,11 +74,18 @@ export default function ProductDetails({ product }: ProductProps) {
   )
 }
 
+export const getStaticPaths: GetStaticPaths = async () => {
+  return {
+    paths: [{ params: { id: 'prod_OG0VyBWXR6d3G3' } }],
+    fallback: true,
+  }
+}
+
 export const getServerSideProps: GetServerSideProps<
   any,
   { id: string }
 > = async ({ params }) => {
-  const productId = params?.id
+  const productId = params?.id ? params.id : ''
 
   if (!productId) {
     return {
@@ -103,5 +113,6 @@ export const getServerSideProps: GetServerSideProps<
         defaultPriceId: price.id,
       },
     },
+    revalidate: 60 * 60 * 1, // 1 hour
   }
 }

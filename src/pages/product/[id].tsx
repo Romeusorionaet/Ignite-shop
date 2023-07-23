@@ -2,7 +2,7 @@ import Stripe from 'stripe'
 import Image from 'next/image'
 import { stripe } from '@/lib/stripe'
 import Head from 'next/head'
-import { GetServerSideProps, GetStaticPaths } from 'next'
+import { GetStaticPaths, GetStaticProps } from 'next'
 import toast from 'react-hot-toast'
 import { useContext } from 'react'
 import { CartContext } from '@/contexts/CartProductContext'
@@ -30,8 +30,11 @@ export default function ProductDetails({ product }: ProductProps) {
   }
 
   if (isFallback) {
-    console.log('IsFALLBAK')
-    return <h1>...Loading</h1>
+    return (
+      <div className="w-full flex items-center justify-center">
+        <h1 className="text-2xl">...Loading</h1>
+      </div>
+    )
   }
 
   return (
@@ -81,10 +84,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getServerSideProps: GetServerSideProps<
-  any,
-  { id: string }
-> = async ({ params }) => {
+export const getStaticProps: GetStaticProps<any, { id: string }> = async ({
+  params,
+}) => {
   const productId = params?.id ? params.id : ''
 
   if (!productId) {

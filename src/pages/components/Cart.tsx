@@ -44,7 +44,7 @@ export default function Cart() {
       className={`${
         buttonValueCartSide === false
           ? 'hidden'
-          : 'h-screen max-mobile:w-screen absolute z-10 top-0 right-0 px-[4.8rem] max-mobile:px-[2rem] max-w-[48rem] bg-gray800 border-b-2 border-b-green-500 max-mobile:flex flex-col items-center'
+          : 'h-screen max-mobile:w-screen absolute z-20 top-0 right-0 px-[4.8rem] max-mobile:px-[2rem] max-w-[48rem] bg-gray800 border-b-2 border-b-green-500 max-mobile:flex flex-col items-center'
       }`}
     >
       <button

@@ -1,4 +1,4 @@
-<h1 align='center'> Todo List </h1>
+<h1 align='center'> Ignite-Shop </h1>
 
 <br>
 
@@ -8,7 +8,7 @@
 
 <div align='center'>
 
-![preview](./src/assets/)
+![preview](./src/assets/preview/previewDesktopIgniteShop.png)
 
 </div>
 
@@ -61,7 +61,7 @@
 
 >Para utilizar o Ignit-shop em sua máquina local, siga as instruções abaixo:
 
-- Clone este repositório: git clone https://github.com/seu_usuario/ignit-shop.git
+- Clone este repositório: git clone https://github.com/Romeusorionaet/ignit-shop.git
 - Instale as dependências: npm install ou yarn install
 - Inicie o servidor de desenvolvimento: npm run dev ou yarn dev
 - Acesse o aplicativo em seu navegador em: http://localhost:3000

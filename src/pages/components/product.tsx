@@ -77,6 +77,11 @@ export default function Product({ products }: ProductsProps) {
     }
   }
 
+  const hoverAnimation =
+    widthScreen && widthScreen >= 800
+      ? 'group-hover:animation-hover-show animation-hover-hidden'
+      : 'flex justify-between items-center'
+
   return (
     <div className="relative">
       <div className="navigation-wrapper">
@@ -97,7 +102,12 @@ export default function Product({ products }: ProductsProps) {
                       />
                     </div>
                   </Link>
-                  <div className="text-lg font-bold absolute bottom-[0.25rem] left-[0.25rem] right-[0.40rem] p-[3.2rem] max-mobile:p-[1rem] rounded-md bg-black/60 h-[6rem] animation-hover-hidden group-hover:animation-hover-show">
+
+                  <div
+                    className={`text-lg font-bold absolute bottom-[0.25rem] left-[0.25rem] 
+                    right-[0.40rem] p-[3.2rem] max-mobile:p-[1rem] rounded-md bg-black/60 
+                    h-[6rem] ${hoverAnimation}`}
+                  >
                     <div className="flex flex-col gap-2">
                       <span>{product.name}</span>{' '}
                       <strong className="text-xl text-green300">
@@ -138,8 +148,9 @@ export default function Product({ products }: ProductsProps) {
 
             <div
               className={`bg-gradient-to-l from-slate-900 w-[20rem] z-10 flex items-center pl-[6rem] ${
+                (widthScreen && widthScreen <= 800) ||
                 currentSlide ===
-                instanceRef.current.track.details.slides.length - 2
+                  instanceRef.current.track.details.slides.length - 2
                   ? 'opacity-0 pointer-events-none'
                   : 'opacity-100 pointer-events-auto'
               }`}
